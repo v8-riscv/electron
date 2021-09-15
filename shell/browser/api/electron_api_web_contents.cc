@@ -1373,8 +1373,19 @@ void WebContents::HandleNewRenderFrame(
   // Set the background color of RenderWidgetHostView.
   auto* web_preferences = WebContentsPreferences::From(web_contents());
   if (web_preferences) {
-    web_contents()->SetPageBaseBackgroundColor(
-        web_preferences->GetBackgroundColor());
+    // When a page base background color is set, transparency needs to be
+    // explicitly set by calling
+    // RenderWidgetHostOwnerDelegate::SetBackgroundOpaque(false).
+    // RenderWidgetHostViewBase::SetBackgroundColor() will do this for us.
+    LOG(INFO) << "LMFAO.";
+    LOG(INFO) << "WP_IsTransparent: " << web_preferences->IsTransparent();
+    if (web_preferences->IsTransparent()) {
+      LOG(INFO) << "DOES THIS EVEN WORK?";
+      rwhv->SetBackgroundColor(SK_ColorTRANSPARENT);
+    } else {
+      web_contents()->SetPageBaseBackgroundColor(
+          web_preferences->GetBackgroundColor());
+    }
   }
 
   if (!background_throttling_)
