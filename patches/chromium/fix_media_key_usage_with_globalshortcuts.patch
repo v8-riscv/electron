@@ -11,22 +11,22 @@ counter to the design of globalShortcuts, and so we need to instead
 use `ui::MediaKeysListener`.
 
 diff --git a/content/browser/media/media_keys_listener_manager_impl.cc b/content/browser/media/media_keys_listener_manager_impl.cc
-index 5938f75742b793868638e693a9a8c8dc686dfc46..bf8782c23095a09dec62c68d7d902df24abcb13e 100644
+index 5938f75742b793868638e693a9a8c8dc686dfc46..8da037cc705dcf3b032841d2a84722c26ffa79da 100644
 --- a/content/browser/media/media_keys_listener_manager_impl.cc
 +++ b/content/browser/media/media_keys_listener_manager_impl.cc
-@@ -231,7 +231,7 @@ void MediaKeysListenerManagerImpl::StartListeningForMediaKeysIfNecessary() {
+@@ -231,6 +231,7 @@ void MediaKeysListenerManagerImpl::StartListeningForMediaKeysIfNecessary() {
        media::AudioManager::GetGlobalAppName());
  #endif
  
--  if (system_media_controls_) {
-+  if (/* DISABLES CODE */ (0)) {
++#if (defined(OS_WIN) || defined(OS_LINUX))
+   if (system_media_controls_) {
      system_media_controls_->AddObserver(this);
      system_media_controls_notifier_ =
-         std::make_unique<SystemMediaControlsNotifier>(
-@@ -239,8 +239,13 @@ void MediaKeysListenerManagerImpl::StartListeningForMediaKeysIfNecessary() {
+@@ -239,8 +240,14 @@ void MediaKeysListenerManagerImpl::StartListeningForMediaKeysIfNecessary() {
    } else {
      // If we can't access system media controls, then directly listen for media
      // key keypresses instead.
++#endif
 +#if defined(OS_MAC)
 +  media_keys_listener_ = ui::MediaKeysListener::Create(
 +        this, ui::MediaKeysListener::Scope::kGlobalRequiresAccessibility);
