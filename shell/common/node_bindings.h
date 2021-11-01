@@ -97,7 +97,7 @@ class NodeBindings {
   void PrepareMessageLoop();
 
   // Do message loop integration.
-  virtual void RunMessageLoop();
+  void RunMessageLoop();
 
   node::IsolateData* isolate_data() const { return isolate_data_; }
 

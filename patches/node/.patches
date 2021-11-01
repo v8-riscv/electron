@@ -1,5 +1,4 @@
 refactor_alter_child_process_fork_to_use_execute_script_with.patch
-feat_add_uv_loop_watcher_queue_code.patch
 feat_initialize_asar_support.patch
 expose_get_builtin_module_function.patch
 build_add_gn_build_files.patch
@@ -24,3 +23,4 @@ repl_fix_crash_when_sharedarraybuffer_disabled.patch
 fix_readbarrier_undefined_symbol_error_on_woa_arm64.patch
 chore_fix_-wimplicit-fallthrough.patch
 fix_event_with_invalid_timestamp_in_trace_log.patch
+feat_add_libuv_loop_integration_option.patch

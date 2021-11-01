@@ -15,12 +15,7 @@ class NodeBindingsMac : public NodeBindings {
   explicit NodeBindingsMac(BrowserEnvironment browser_env);
   ~NodeBindingsMac() override;
 
-  void RunMessageLoop() override;
-
  private:
-  // Called when uv's watcher queue changes.
-  static void OnWatcherQueueChanged(uv_loop_t* loop);
-
   void PollEvents() override;
 
   DISALLOW_COPY_AND_ASSIGN(NodeBindingsMac);
