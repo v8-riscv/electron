@@ -55,7 +55,7 @@ class ElectronMimeHandlerViewGuestDelegate
   ~ElectronMimeHandlerViewGuestDelegate() override = default;
 
   // MimeHandlerViewGuestDelegate.
-  bool HandleContextMenu(content::WebContents* web_contents,
+  bool HandleContextMenu(content::RenderFrameHost& render_frame_host,
                          const content::ContextMenuParams& params) override {
     // TODO(nornagon): surface this event to JS
     LOG(INFO) << "HCM";
