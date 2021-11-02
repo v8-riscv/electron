@@ -679,6 +679,7 @@ WebContents.prototype._init = function () {
         referrer,
         postBody
       };
+      console.log('rawFeatures: ', rawFeatures);
       windowOpenOverriddenOptions = this._callWindowOpenHandler(event, details);
       // if attempting to use this API with the deprecated new-window event,
       // windowOpenOverriddenOptions will always return null. This ensures
@@ -689,6 +690,8 @@ WebContents.prototype._init = function () {
         webPreferences: parsedFeatures.webPreferences
       };
       windowOpenOverriddenOptions = windowOpenOverriddenOptions || overriddenFeatures;
+      console.log('windowOpenOverriddenOptions.transparent', windowOpenOverriddenOptions.transparent);
+      console.log('windowOpenOverriddenOptions.backgroundColor', windowOpenOverriddenOptions.backgroundColor);
 
       if (!event.defaultPrevented) {
         const secureOverrideWebPreferences = windowOpenOverriddenOptions ? {

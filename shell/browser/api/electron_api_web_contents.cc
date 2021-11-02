@@ -1093,6 +1093,21 @@ void WebContents::AddNewContents(
     bool* was_blocked) {
   auto* tracker = ChildWebContentsTracker::FromWebContents(new_contents.get());
   DCHECK(tracker);
+  LOG(ERROR) << "RAW FEATURES (Tracker): " << tracker->raw_features;
+
+  // v8::Local<v8::Value> value;
+  // bool transparent = false;
+  // new_contents.get(new_contents::kTransparent, &transparent);
+  // LOG(ERROR) << "transparent: (AddNewContents) " << transparent;
+
+  // // Copy the backgroundColor to webContents.
+  // if (transparent) {
+  //   // If the webContents are transparent or a vibrancy type has been set,
+  //   // also propagate transparency to the WebContents unless a separate
+  //   // backgroundColor has been set.
+  //   new_contents.set(new_contents::kBackgroundColor,
+  //                             ToRGBAHex(SK_ColorTRANSPARENT));
+  // }
 
   v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
 
@@ -1455,10 +1470,17 @@ void WebContents::HandleNewRenderFrame(
 
   // Set the background color of RenderWidgetHostView.
   auto* web_preferences = WebContentsPreferences::From(web_contents());
+  LOG(ERROR) << "***** HANDLE NEW RENDER FRAME *****";
   if (web_preferences) {
-    absl::optional<SkColor> color = web_preferences->GetBackgroundColor();
-    web_contents()->SetPageBaseBackgroundColor(color);
-    rwhv->SetBackgroundColor(color.value_or(SK_ColorWHITE));
+    bool transparent = web_preferences->GetTransparency();
+    LOG(ERROR) << "From: Transparent " << transparent;
+    if (transparent) {
+      rwhv->SetBackgroundColor(SK_ColorTRANSPARENT);
+    } else {
+      absl::optional<SkColor> color = web_preferences->GetBackgroundColor();
+      web_contents()->SetPageBaseBackgroundColor(color);
+      rwhv->SetBackgroundColor(color.value_or(SK_ColorWHITE));
+    }
   }
 
   if (!background_throttling_)
@@ -4057,10 +4079,31 @@ gin::Handle<WebContents> WebContents::CreateFromWebPreferences(
       existing_preferences->SetFromDictionary(web_preferences_dict);
       absl::optional<SkColor> color =
           existing_preferences->GetBackgroundColor();
+      bool transparent = existing_preferences->GetTransparency();
+      LOG(ERROR) << "CreateFromWebPreferences: Transparent " << transparent;
       web_contents->web_contents()->SetPageBaseBackgroundColor(color);
-      auto* rwhv = web_contents->web_contents()->GetRenderWidgetHostView();
-      if (rwhv)
-        rwhv->SetBackgroundColor(color.value_or(SK_ColorWHITE));
+      // auto* rwhv = web_contents->web_contents()->GetRenderWidgetHostView();
+      // if (rwhv) {
+      //   if (transparent) {
+      //     rwhv->SetBackgroundColor(SK_ColorTRANSPARENT);
+      //   } else {
+      //     rwhv->SetBackgroundColor(color.value_or(SK_ColorWHITE));
+      //   }
+      // }
+      // if (rwhv) {
+      // //   rwhv->SetBackgroundColor(color.value());
+      //   if (color.has_value()) {
+      //     LOG(ERROR) << "CreateFromWebPreferences: Color Has Value: " << color.value();
+      //     rwhv->SetBackgroundColor(color.value());
+      //   } else {
+      //     LOG(ERROR) << "CreateFromWebPreferences: Color NO Value ";
+      //     // bool wp_transparent = web_preferences.Get("transparent", &wp_transparent);
+      //     LOG(ERROR) << "CreateFromWebPreferences: Transparent " << transparent;
+      //     // LOG(ERROR) << "CreateFromWebPreferences: WP Transparent " << wp_transparent;
+      //     if (transparent)
+      //       rwhv->SetBackgroundColor(SK_ColorTRANSPARENT);
+      //   }
+      // }
     }
   } else {
     // Create one if not.

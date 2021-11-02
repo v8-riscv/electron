@@ -159,6 +159,7 @@ void WebContentsPreferences::Clear() {
   safe_dialogs_ = false;
   safe_dialogs_message_ = absl::nullopt;
   ignore_menu_shortcuts_ = false;
+  transparent_ = false;
   background_color_ = absl::nullopt;
   image_animation_policy_ =
       blink::mojom::ImageAnimationPolicy::kImageAnimationPolicyAllowed;
@@ -228,6 +229,10 @@ void WebContentsPreferences::SetFromDictionary(
   std::string background_color;
   if (web_preferences.GetHidden(options::kBackgroundColor, &background_color))
     background_color_ = ParseHexColor(background_color);
+  bool transparent;
+  if (web_preferences.Get(options::kTransparent, &transparent)) {
+    transparent_ = true;
+  }
   std::string safe_dialogs_message;
   if (web_preferences.Get("safeDialogsMessage", &safe_dialogs_message))
     safe_dialogs_message_ = safe_dialogs_message;
