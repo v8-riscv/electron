@@ -1451,7 +1451,8 @@ bool ElectronBrowserClient::BindAssociatedReceiverFromFrame(
     mojo::ScopedInterfaceEndpointHandle* handle) {
   if (interface_name == mojom::ElectronAutofillDriver::Name_) {
     AutofillDriverFactory::BindAutofillDriver(
-        mojom::ElectronAutofillDriverAssociatedRequest(std::move(*handle)),
+        mojo::PendingAssociatedReceiver<mojom::ElectronAutofillDriver>(
+            std::move(*handle)),
         render_frame_host);
     return true;
   }
