@@ -142,6 +142,7 @@ class InspectableWebContents
                      const std::string& value) override;
   void RemovePreference(const std::string& name) override;
   void ClearPreferences() override;
+  void GetSyncInformation(DispatchCallback callback) override;
   void ConnectionReady() override;
   void RegisterExtensionsAPI(const std::string& origin,
                              const std::string& script) override;
