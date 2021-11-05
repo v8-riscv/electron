@@ -51,6 +51,10 @@ class Delegate {
 
 class AutoUpdater {
  public:
+  AutoUpdater() = delete;
+  AutoUpdater(const AutoUpdater&) = delete;
+  AutoUpdater& operator=(const AutoUpdater&) = delete;
+
   typedef std::map<std::string, std::string> HeaderMap;
 
   // Gets/Sets the delegate.
@@ -67,8 +71,6 @@ class AutoUpdater {
 
  private:
   static Delegate* delegate_;
-
-  DISALLOW_IMPLICIT_CONSTRUCTORS(AutoUpdater);
 };
 
 }  // namespace auto_updater

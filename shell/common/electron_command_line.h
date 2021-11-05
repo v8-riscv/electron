@@ -14,6 +14,10 @@ namespace electron {
 // Singleton to remember the original "argc" and "argv".
 class ElectronCommandLine {
  public:
+  ElectronCommandLine() = delete;
+  ElectronCommandLine(const ElectronCommandLine&) = delete;
+  ElectronCommandLine& operator=(const ElectronCommandLine&) = delete;
+
   static const base::CommandLine::StringVector& argv() { return argv_; }
 
   static void Init(int argc, base::CommandLine::CharType** argv);
@@ -26,8 +30,6 @@ class ElectronCommandLine {
 
  private:
   static base::CommandLine::StringVector argv_;
-
-  DISALLOW_IMPLICIT_CONSTRUCTORS(ElectronCommandLine);
 };
 
 }  // namespace electron
