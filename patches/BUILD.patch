@@ -1,0 +1,11 @@
+--- ./build/toolchain/linux/BUILD.gn    2021-11-13 01:53:58.000000000 +0000
++++ ./build/toolchain/linux/BUILD.gn    2021-11-13 08:12:00.242056047 +0000
+@@ -291,7 +291,7 @@
+ }
+
+ gcc_toolchain("riscv64") {
+-  toolprefix = "riscv64-linux-gnu"
++  toolprefix = "riscv64-unknow-linux-gnu"
+
+   cc = "${toolprefix}-gcc"
+   cxx = "${toolprefix}-g++"
