@@ -5,7 +5,7 @@
 
  gcc_toolchain("riscv64") {
 -  toolprefix = "riscv64-linux-gnu"
-+  toolprefix = "riscv64-unknow-linux-gnu"
++  toolprefix = "riscv64-unknown-linux-gnu"
 
    cc = "${toolprefix}-gcc"
    cxx = "${toolprefix}-g++"
